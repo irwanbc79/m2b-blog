@@ -2,6 +2,8 @@ import type { MetadataRoute } from 'next'
 import { getAllPosts } from '@/lib/posts'
 import { CATEGORIES } from '@/lib/categories'
 
+export const dynamic = 'force-static'
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://blog.m2b.co.id'
 
 export default function sitemap(): MetadataRoute.Sitemap {
