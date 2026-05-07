@@ -29,15 +29,21 @@ function parsePost(slug: string): Post | null {
     const raw = fs.readFileSync(filePath, 'utf8')
     const { data, content } = matter(raw)
     const stats = readingTime(content)
+    const title = data.title || ''
     const excerpt = content
-      .replace(/^#{1,6}\s.+$/gm, '')
-      .replace(/[*`[\]()>_~|]/g, '')
-      .trim()
-      .slice(0, 180) + '...'
+      .replace(/^#{1,6}\s.+$/gm, '')       // hapus headings
+      .replace(/[*`[\]()>_~|\\]/g, '')     // hapus markdown syntax
+      .replace(/!\[.*?\]/g, '')             // hapus image syntax
+      .split('\n')
+      .map(l => l.trim())
+      .filter(l => l.length > 30 && !l.startsWith(title.slice(0, 20)))  // skip baris yang duplikat judul
+      .join(' ')
+      .slice(0, 180)
+      .trim() + '...'
 
     return {
       slug: data.slug || slug,
-      title: data.title || '',
+      title,
       description: data.description || excerpt,
       date: data.date || '',
       category: data.category || 'Umum',
