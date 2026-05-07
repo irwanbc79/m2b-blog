@@ -32,6 +32,22 @@ jobs:
 
       - name: Deploy ke Hostinger via SSH
         uses: easingthemes/ssh-deploy@main
+        timeout-minutes: 5
+        continue-on-error: true
+        id: deploy_first
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          ARGS: "-avz --delete --exclude=admin/"
+          SOURCE: "out/"
+          REMOTE_HOST: 31.97.104.23
+          REMOTE_PORT: 65002
+          REMOTE_USER: u301249154
+          TARGET: /home/u301249154/domains/m2b.co.id/public_html/blog/
+
+      - name: Deploy retry (jika timeout)
+        if: steps.deploy_first.outcome == 'failure'
+        uses: easingthemes/ssh-deploy@main
+        timeout-minutes: 5
         with:
           SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           ARGS: "-avz --delete --exclude=admin/"
