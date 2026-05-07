@@ -22,7 +22,21 @@ const lora = Lora({
   display: 'swap',
 })
 
-export const metadata: Metadata = getBaseMetadata()
+export const metadata: Metadata = {
+  ...getBaseMetadata(),
+  icons: {
+    icon: [
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.ico' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+    other: [
+      { rel: 'icon', url: '/icon-192.png', sizes: '192x192' },
+      { rel: 'icon', url: '/icon-512.png', sizes: '512x512' },
+    ],
+  },
+}
 
 const ADSENSE_ID = process.env.NEXT_PUBLIC_ADSENSE_ID || 'ca-pub-5616961797801657'
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID

@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { CATEGORIES } from '@/lib/categories'
@@ -17,11 +18,19 @@ export default function Navbar() {
     >
       <div className="max-w-[1200px] mx-auto px-6 h-full flex items-center justify-between gap-4">
         {/* Logo */}
-        <Link href="/" className="shrink-0 flex items-center gap-1 no-underline">
-          <span className="text-[22px] font-extrabold tracking-tight text-navy font-heading">
-            M<span style={{ color: 'oklch(72% 0.14 82deg)' }}>2</span>B
-          </span>
-          <span className="text-[13px] font-semibold text-text-mid ml-2 hidden sm:block">
+        <Link href="/" className="shrink-0 flex items-center gap-2 no-underline">
+          <Image
+            src="/logo-m2b.jpg"
+            alt="M2B Logistic Solution Partner"
+            width={120}
+            height={93}
+            className="h-[40px] w-auto object-contain"
+            priority
+          />
+          <span
+            className="text-[12px] font-bold hidden sm:block"
+            style={{ color: '#8891AA' }}
+          >
             Blog
           </span>
         </Link>

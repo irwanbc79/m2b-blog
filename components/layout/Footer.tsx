@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 const CATEGORIES_LINKS = [
   { label: 'Ekspor', href: '/category/ekspor' },
@@ -20,9 +21,17 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div>
-            <div className="text-[22px] font-extrabold text-cream mb-3 font-heading">
-              M<span style={{ color: 'oklch(72% 0.14 82deg)' }}>2</span>B Blog
-            </div>
+            <Link href="/" className="inline-block mb-3 no-underline">
+              <div className="bg-white rounded-[10px] px-3 py-2 inline-flex items-center">
+                <Image
+                  src="/logo-m2b.jpg"
+                  alt="M2B Logistic Solution Partner"
+                  width={120}
+                  height={93}
+                  className="h-[44px] w-auto object-contain"
+                />
+              </div>
+            </Link>
             <p className="text-[13px] leading-relaxed mb-4">
               Panduan ekspor-impor, logistik, dan bea cukai untuk UKM dan perusahaan Indonesia.
             </p>
