@@ -19,20 +19,13 @@ export default function ArticleCard({ post, variant = 'default' }: Props) {
     return (
       <Link href={`/blog/${post.slug}`} className="block no-underline group h-full">
         <div
-          className="h-full min-h-[440px] rounded-[24px] p-6 flex flex-col justify-end relative overflow-hidden transition-all duration-200"
-          style={{
-            background: '#0B1120',
-            boxShadow: '0 4px 24px rgba(11,17,32,0.18)',
-          }}
+          className="h-full min-h-[440px] rounded-[24px] p-6 flex flex-col justify-end relative overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(11,17,32,0.22)]"
+          style={{ background: '#0B1120', boxShadow: '0 4px 24px rgba(11,17,32,0.18)' }}
         >
-          {/* Gradient overlay for visual depth */}
           <div
             className="absolute inset-0 opacity-30 rounded-[24px]"
-            style={{
-              background: 'radial-gradient(ellipse at 30% 20%, oklch(72% 0.14 82deg), transparent 60%)',
-            }}
+            style={{ background: 'radial-gradient(ellipse at 30% 20%, oklch(72% 0.14 82deg), transparent 60%)' }}
           />
-
           <div className="relative z-10 flex flex-col gap-3">
             <CategoryBadge category={post.category} />
             <h2
@@ -49,10 +42,7 @@ export default function ArticleCard({ post, variant = 'default' }: Props) {
             </div>
             <div
               className="mt-2 self-start flex items-center gap-2 px-3 py-1.5 rounded-[20px] text-[12px] font-bold transition-all duration-150 group-hover:gap-3"
-              style={{
-                background: 'oklch(72% 0.14 82deg)',
-                color: '#0B1120',
-              }}
+              style={{ background: 'oklch(72% 0.14 82deg)', color: '#0B1120' }}
             >
               Baca Selengkapnya
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -68,20 +58,7 @@ export default function ArticleCard({ post, variant = 'default' }: Props) {
   if (variant === 'side') {
     return (
       <Link href={`/blog/${post.slug}`} className="block no-underline group">
-        <div
-          className="rounded-[16px] p-4 flex flex-col gap-2 transition-all duration-200 border border-cream-dark hover:border-transparent"
-          style={{ background: '#FFFDF9' }}
-          onMouseEnter={e => {
-            const el = e.currentTarget as HTMLDivElement
-            el.style.transform = 'translateY(-4px)'
-            el.style.boxShadow = '0 12px 40px rgba(11,17,32,0.10)'
-          }}
-          onMouseLeave={e => {
-            const el = e.currentTarget as HTMLDivElement
-            el.style.transform = ''
-            el.style.boxShadow = ''
-          }}
-        >
+        <div className="rounded-[16px] p-4 flex flex-col gap-2 transition-all duration-200 border border-cream-dark hover:border-transparent hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(11,17,32,0.10)] bg-warm-white">
           <CategoryBadge category={post.category} size="sm" />
           <h3
             className="font-bold text-navy leading-snug"
@@ -99,26 +76,11 @@ export default function ArticleCard({ post, variant = 'default' }: Props) {
     )
   }
 
-  // default card
   return (
     <Link href={`/blog/${post.slug}`} className="block no-underline group">
-      <article
-        className="rounded-[16px] p-5 flex flex-col gap-3 transition-all duration-200 border border-cream-dark hover:border-transparent h-full"
-        style={{ background: '#FFFDF9' }}
-        onMouseEnter={e => {
-          const el = e.currentTarget as HTMLElement
-          el.style.transform = 'translateY(-4px)'
-          el.style.boxShadow = '0 12px 40px rgba(11,17,32,0.10)'
-        }}
-        onMouseLeave={e => {
-          const el = e.currentTarget as HTMLElement
-          el.style.transform = ''
-          el.style.boxShadow = ''
-        }}
-      >
-        {/* Thumbnail placeholder */}
+      <article className="rounded-[16px] p-5 flex flex-col gap-3 transition-all duration-200 border border-cream-dark hover:border-transparent hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(11,17,32,0.10)] bg-warm-white h-full">
         <div
-          className="w-full rounded-[12px] overflow-hidden flex items-center justify-center text-cream/30 text-[11px] font-bold uppercase tracking-wider"
+          className="w-full rounded-[12px] flex items-center justify-center text-cream/30 text-[11px] font-bold uppercase tracking-wider"
           style={{ height: 140, background: '#162035' }}
         >
           {post.category}
@@ -141,10 +103,7 @@ export default function ArticleCard({ post, variant = 'default' }: Props) {
             <span>·</span>
             <ReadingTime minutes={post.readTime} className="text-[11.5px]" />
           </div>
-          <div
-            className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-150 group-hover:bg-navy"
-            style={{ background: '#EDE8DF' }}
-          >
+          <div className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-150 bg-cream-dark group-hover:bg-navy">
             <svg
               width="13" height="13" viewBox="0 0 13 13" fill="none"
               className="text-text-mid group-hover:text-cream transition-colors"
