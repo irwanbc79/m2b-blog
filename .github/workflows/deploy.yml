@@ -1,0 +1,45 @@
+name: Build & Deploy ke Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:   # bisa trigger manual dari GitHub UI
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static site
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://blog.m2b.co.id
+          NEXT_PUBLIC_ADSENSE_ID: ca-pub-5616961797801657
+          NEXT_PUBLIC_GA_ID: ${{ secrets.GA_ID }}
+
+      - name: Deploy ke Hostinger via SSH
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          ARGS: "-avz --delete"
+          SOURCE: "out/"
+          REMOTE_HOST: 31.97.104.23
+          REMOTE_PORT: 65002
+          REMOTE_USER: u301249154
+          TARGET: /home/u301249154/domains/m2b.co.id/public_html/blog/
+
+      - name: Notify sukses
+        run: echo "✅ Blog live di https://blog.m2b.co.id"
