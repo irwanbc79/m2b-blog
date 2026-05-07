@@ -14,6 +14,7 @@ npm run build
 
 echo "🚀 Deploying to ${REMOTE_HOST}:${REMOTE_PATH} ..."
 rsync -avz --delete \
+  --exclude='admin/' \
   -e "ssh -p ${REMOTE_PORT}" \
   out/ \
   ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
