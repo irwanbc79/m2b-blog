@@ -26,8 +26,8 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Category pills — desktop */}
-        <nav className="hidden lg:flex items-center gap-1 flex-1 justify-center">
+        {/* Nav links — desktop */}
+        <nav className="hidden lg:flex items-center gap-0.5 flex-1 justify-center">
           {['Semua', ...NAV_CATS].map((cat) => {
             const href = cat === 'Semua' ? '/' : `/category/${cat.toLowerCase().replace(/ /g, '-')}`
             const active = cat === 'Semua' ? pathname === '/' : pathname.startsWith(`/category/${cat.toLowerCase().replace(/ /g, '-')}`)
@@ -45,6 +45,23 @@ export default function Navbar() {
               </Link>
             )
           })}
+          <span className="w-px h-4 bg-cream-dark mx-1" />
+          {[
+            { label: 'Arsip', href: '/archive' },
+            { label: 'Tags', href: '/tags' },
+          ].map(item => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`px-3 py-1 rounded-[20px] text-[13px] font-semibold transition-all duration-150 no-underline ${
+                pathname === item.href
+                  ? 'bg-navy text-cream'
+                  : 'text-text-mid hover:bg-cream-dark hover:text-navy'
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
         {/* CTA — desktop */}
@@ -92,16 +109,21 @@ export default function Navbar() {
           {['Semua', ...NAV_CATS].map((cat) => {
             const href = cat === 'Semua' ? '/' : `/category/${cat.toLowerCase().replace(/ /g, '-')}`
             return (
-              <Link
-                key={cat}
-                href={href}
-                onClick={() => setMenuOpen(false)}
-                className="py-2 text-[14px] font-semibold text-text-main hover:text-navy no-underline"
-              >
+              <Link key={cat} href={href} onClick={() => setMenuOpen(false)}
+                className="py-2 text-[14px] font-semibold text-text-main hover:text-navy no-underline">
                 {cat}
               </Link>
             )
           })}
+          <div className="h-px bg-cream-dark my-1" />
+          <Link href="/archive" onClick={() => setMenuOpen(false)}
+            className="py-2 text-[14px] font-semibold text-text-main hover:text-navy no-underline">
+            Arsip Artikel
+          </Link>
+          <Link href="/tags" onClick={() => setMenuOpen(false)}
+            className="py-2 text-[14px] font-semibold text-text-main hover:text-navy no-underline">
+            Semua Tags
+          </Link>
           <a
             href="https://wa.me/6281263027818"
             target="_blank"

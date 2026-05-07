@@ -21,6 +21,18 @@ export interface Post {
   status: string
 }
 
+export interface ArchiveGroup {
+  year: number
+  monthIndex: number
+  posts: Post[]
+}
+
+export interface TOCItem {
+  id: string
+  text: string
+  level: number
+}
+
 function parsePost(slug: string): Post | null {
   try {
     const mdxPath = path.join(postsDirectory, `${slug}.mdx`)
@@ -31,12 +43,12 @@ function parsePost(slug: string): Post | null {
     const stats = readingTime(content)
     const title = data.title || ''
     const excerpt = content
-      .replace(/^#{1,6}\s.+$/gm, '')       // hapus headings
-      .replace(/[*`[\]()>_~|\\]/g, '')     // hapus markdown syntax
-      .replace(/!\[.*?\]/g, '')             // hapus image syntax
+      .replace(/^#{1,6}\s.+$/gm, '')
+      .replace(/[*`[\]()>_~|\\]/g, '')
+      .replace(/!\[.*?\]/g, '')
       .split('\n')
       .map(l => l.trim())
-      .filter(l => l.length > 30 && !l.startsWith(title.slice(0, 20)))  // skip baris yang duplikat judul
+      .filter(l => l.length > 30 && !l.startsWith(title.slice(0, 20)))
       .join(' ')
       .slice(0, 180)
       .trim() + '...'
@@ -92,4 +104,52 @@ export function getRelatedPosts(post: Post, limit = 3): Post[] {
       p.tags.some(t => post.tags.includes(t))
     ))
     .slice(0, limit)
+}
+
+export function getAllTags(): { tag: string; count: number }[] {
+  const posts = getAllPosts()
+  const tagCount: Record<string, number> = {}
+  posts.forEach(p => p.tags.forEach(t => {
+    tagCount[t] = (tagCount[t] || 0) + 1
+  }))
+  return Object.entries(tagCount)
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => b.count - a.count)
+}
+
+export function getPostsByTag(tag: string): Post[] {
+  return getAllPosts().filter(p =>
+    p.tags.map(t => t.toLowerCase()).includes(tag.toLowerCase())
+  )
+}
+
+export function getArchiveGroups(): ArchiveGroup[] {
+  const posts = getAllPosts()
+  const map = new Map<string, ArchiveGroup>()
+  posts.forEach(p => {
+    const d = new Date(p.date)
+    const key = `${d.getFullYear()}-${d.getMonth()}`
+    if (!map.has(key)) {
+      map.set(key, { year: d.getFullYear(), monthIndex: d.getMonth(), posts: [] })
+    }
+    map.get(key)!.posts.push(p)
+  })
+  return Array.from(map.values())
+    .sort((a, b) => b.year - a.year || b.monthIndex - a.monthIndex)
+}
+
+export function extractTOC(content: string): TOCItem[] {
+  const regex = /^(#{2,3})\s+(.+)$/gm
+  const items: TOCItem[] = []
+  let match
+  while ((match = regex.exec(content)) !== null) {
+    const level = match[1].length
+    const text = match[2].replace(/[*`[\]()_~]/g, '').trim()
+    const id = text.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+    items.push({ id, text, level })
+  }
+  return items
 }

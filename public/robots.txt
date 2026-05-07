@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Allow: /
+
+# Googlebot
+User-agent: Googlebot
+Allow: /
+
+# Host
+Host: https://blog.m2b.co.id
+
+# Sitemaps
+Sitemap: https://blog.m2b.co.id/sitemap.xml

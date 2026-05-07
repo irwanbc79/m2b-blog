@@ -53,10 +53,10 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Artikel Populer */}
+          {/* Jelajahi */}
           <div>
             <div className="text-[13px] font-bold text-cream uppercase tracking-wider mb-4">
-              Artikel Populer
+              Jelajahi
             </div>
             <ul className="space-y-2">
               {POPULAR_LINKS.map(l => (
@@ -66,6 +66,8 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li><Link href="/archive" className="text-[13px] hover:text-cream transition-colors no-underline">📅 Arsip Artikel</Link></li>
+              <li><Link href="/tags" className="text-[13px] hover:text-cream transition-colors no-underline">🏷 Semua Tags</Link></li>
             </ul>
           </div>
 
