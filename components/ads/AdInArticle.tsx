@@ -6,7 +6,7 @@ interface Props {
 
 // Slot B (top) & Slot C (mid) — In-Article 580×250
 export default function AdInArticle({ slot = 'top' }: Props) {
-  const slotId = slot === 'top' ? 'SLOT_B_INARTICLE_TOP' : 'SLOT_C_INARTICLE_MID'
+  const slotId = slot === 'top' ? '8299147673' : '6239960542'
   return (
     <div className="my-8 flex justify-center">
       <AdUnit

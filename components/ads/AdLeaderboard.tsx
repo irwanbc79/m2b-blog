@@ -5,7 +5,7 @@ export default function AdLeaderboard() {
   return (
     <div className="flex justify-center py-4">
       <AdUnit
-        slot="SLOT_A_LEADERBOARD"
+        slot="4457701474"
         format="leaderboard"
         style={{ width: 728, maxWidth: '100%' }}
       />

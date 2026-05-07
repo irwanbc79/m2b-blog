@@ -4,7 +4,7 @@ import AdUnit from './AdUnit'
 export default function AdSidebar() {
   return (
     <AdUnit
-      slot="SLOT_D_SIDEBAR"
+      slot="1448394751"
       format="vertical"
       style={{ width: 300, minHeight: 600 }}
     />

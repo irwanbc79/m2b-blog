@@ -5,7 +5,7 @@ export default function AdInFeed() {
   return (
     <div className="col-span-full">
       <AdUnit
-        slot="SLOT_E_INFEED"
+        slot="2440316331"
         format="fluid"
         style={{ minHeight: 120, width: '100%' }}
       />
