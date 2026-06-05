@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { format } from 'date-fns'
@@ -45,6 +47,22 @@ export default async function ArticlePage({ params }: Props) {
 
   const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://blog.m2b.co.id'
   const articleUrl = `${SITE_URL}/blog/${post.slug}`
+
+  const hasHeroImage = post.ogImage.startsWith('http')
+    ? true
+    : fs.existsSync(path.join(process.cwd(), 'public', post.ogImage))
+
+  const CATEGORY_HERO: Record<string, { gradient: string; icon: string; accent: string }> = {
+    'Ekspor':    { gradient: 'linear-gradient(135deg, oklch(28% 0.12 145deg), #0B1120)', icon: '🚢', accent: 'oklch(55% 0.18 145deg)' },
+    'Impor':     { gradient: 'linear-gradient(135deg, oklch(26% 0.12 230deg), #0B1120)', icon: '📦', accent: 'oklch(50% 0.18 230deg)' },
+    'UMKM':      { gradient: 'linear-gradient(135deg, oklch(32% 0.12 30deg),  #0B1120)', icon: '🏪', accent: 'oklch(55% 0.18 30deg)'  },
+    'Bea Cukai': { gradient: 'linear-gradient(135deg, oklch(28% 0.12 310deg), #0B1120)', icon: '🛃', accent: 'oklch(50% 0.18 310deg)' },
+  }
+  const hero = CATEGORY_HERO[post.category] ?? {
+    gradient: 'linear-gradient(135deg, #162035, #0B1120)',
+    icon: '📄',
+    accent: 'oklch(72% 0.14 82deg)',
+  }
 
   const articleSchema = getArticleJsonLd(post)
   const breadcrumbSchema = getBreadcrumbJsonLd([
@@ -124,16 +142,50 @@ export default async function ArticlePage({ params }: Props) {
         {/* Hero image */}
         <div className="max-w-[760px] mx-auto mb-8">
           <div
-            className="w-full rounded-[18px] flex items-center justify-center relative overflow-hidden"
-            style={{ height: 300, background: '#0B1120' }}
+            className="w-full rounded-[18px] overflow-hidden relative"
+            style={{ height: 340 }}
           >
-            <div
-              className="absolute inset-0 opacity-20"
-              style={{ background: 'radial-gradient(ellipse at 30% 50%, oklch(72% 0.14 82deg), transparent 65%)' }}
-            />
-            <span className="relative text-cream/30 font-bold text-sm uppercase tracking-[4px]">
-              {post.category}
-            </span>
+            {hasHeroImage ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={post.ogImage}
+                alt={post.title}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              /* Placeholder visual per kategori */
+              <div
+                className="w-full h-full flex flex-col items-center justify-center gap-4 relative"
+                style={{ background: hero.gradient }}
+              >
+                {/* Noise texture overlay */}
+                <div
+                  className="absolute inset-0 opacity-[0.04]"
+                  style={{
+                    backgroundImage:
+                      'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
+                  }}
+                />
+                {/* Accent glow */}
+                <div
+                  className="absolute inset-0 opacity-30"
+                  style={{
+                    background: `radial-gradient(ellipse at 50% 40%, ${hero.accent}, transparent 65%)`,
+                  }}
+                />
+                {/* Icon */}
+                <span className="relative text-[72px] leading-none drop-shadow-lg select-none">
+                  {hero.icon}
+                </span>
+                {/* Category label */}
+                <span
+                  className="relative px-4 py-1.5 rounded-full text-[12px] font-bold uppercase tracking-[3px]"
+                  style={{ background: 'rgba(255,255,255,0.08)', color: hero.accent }}
+                >
+                  {post.category}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 

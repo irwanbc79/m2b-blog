@@ -4,6 +4,7 @@ import Script from 'next/script'
 import TickerBar from '@/components/layout/TickerBar'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import FloatingCTA from '@/components/layout/FloatingCTA'
 import { getBaseMetadata } from '@/lib/seo'
 import './globals.css'
 
@@ -78,6 +79,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <Footer />
+        <FloatingCTA />
       </body>
     </html>
   )
